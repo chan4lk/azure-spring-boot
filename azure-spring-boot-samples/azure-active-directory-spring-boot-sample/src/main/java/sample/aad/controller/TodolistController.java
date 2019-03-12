@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 public class TodolistController {
+    
     private final List<TodoItem> todoList = new ArrayList<>();
 
     public TodolistController() {
@@ -54,7 +55,7 @@ public class TodolistController {
         return new ResponseEntity<>(todoList, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_group1')")
+    @PreAuthorize("hasRole('group1')")
     @RequestMapping(value = "/api/todolist", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> addNewTodoItem(@RequestBody TodoItem item) {
         item.setID(todoList.size() + 1);
@@ -65,7 +66,7 @@ public class TodolistController {
     /**
      * HTTP PUT
      */
-    @PreAuthorize("hasRole('ROLE_group1')")
+    @PreAuthorize("hasRole('group1')")
     @RequestMapping(value = "/api/todolist", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateTodoItem(@RequestBody TodoItem item) {
         final List<TodoItem> find =
@@ -86,7 +87,7 @@ public class TodolistController {
         final UserPrincipal current = (UserPrincipal) authToken.getPrincipal();
 
         if (current.isMemberOf(
-                new UserGroup("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", "group1"))) {
+                new UserGroup("50f89ecf-358c-4575-9290-d93e15cf7632", "group1"))) {
             final List<TodoItem> find = todoList.stream().filter(i -> i.getID() == id).collect(Collectors.toList());
             if (!find.isEmpty()) {
                 todoList.remove(todoList.indexOf(find.get(0)));
